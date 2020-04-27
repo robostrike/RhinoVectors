@@ -15,10 +15,24 @@ import operator as op
 import math as ma
 
 def ptCheck(a):
+    #determines if the submitted point is a point object in space or 
+    #is an array value
+    #or other
+    
+    """
+    is a an array or data object identifier
+    if a is array, return a
+    if a is object identifier, determine its type
+            if type is 1, get teh array value
+            if type is not 1, then exit as it doesn't work and highlight it.
+    
+    """
+    
     try:
         b = rs.coerce3dpoint(a)
     except:
-        pass
+        b = a
+        
     return b
 
 def dot(a,b):

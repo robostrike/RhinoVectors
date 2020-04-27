@@ -39,13 +39,19 @@ def dot(a,b):
 #split between it being a 
 
 pt1 = rs.ObjectsByLayer("Default")
+#so if there's only  one object, it's defined within each item... so the [] array parameter inside another array is what's causing the 'none' results to occur.
+#lists have to be idnividually handled
 
-
+print pt1[0], rs.ObjectType(pt1[0])
+print rs.coerce3dpoint(pt1[0])
+print "Pt1" , rs.coerce3dpoint(pt1)
+try:
+    ptX = rs.coerce3dpoint(pt1)
+    print "ptX", ptX
+    pt1 = ptX
+except:
+    pass
 
 pt2 = (0,0,10)
 
 #parser for information
-
-
-print rs.ObjectType(pt1)
-

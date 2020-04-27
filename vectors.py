@@ -67,8 +67,38 @@ def vecSub(a,b):
     
     return (b[0]-a[0],b[1]-a[1],b[2]-a[2])
 
+def vecMult(a,b):
+    a = ptCheck(a)
+    
+    return (a[0]*b,a[1]*b,a[2]*b)
+
+def vecCross(a,b):
+    a = ptCheck(a)
+    b = ptCheck(b)
+    
+    c = (a[1]*b[2]-a[2]*b[1],a[2]*b[0]-b[2]*a[0],a[0]*b[1]-a[1]*b[0])
+    
+    return c
+
+def vecUnit(a):
+    a = ptCheck(a)
+    b = dist(a,(0,0,0))
+    if b < 0.0001:
+        print "Attempt at dividing by 0"
+        exit()
+    else:
+        return (a[0]/b , a[1]/b , a[2]/b)
 
 
+def vecAddUnit(a,b):
+    return vecUnit(vecAdd(a,b))
+def vecSubUnit(a,b):
+    return vecUnit(vecSub(a,b))
+def vecCrossUnit(a,b):
+    return vecUnit(vecCross(a,b))
+
+def vecDot(a,b):
+    return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
 
 
 pt1 = (0,0,0)

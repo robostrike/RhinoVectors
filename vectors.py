@@ -19,41 +19,58 @@ def ptCheck(a):
     #is an array value
     #or other
     
-    """
-    is a an array or data object identifier
-    if a is array, return a
-    if a is object identifier, determine its type
-            if type is 1, get teh array value
-            if type is not 1, then exit as it doesn't work and highlight it.
-    
-    """
+    designation = 0
     
     try:
-        b = rs.coerce3dpoint(a)
+        if rs.ObjectType(a) == 1: #collect point object value
+            b = rs.coerce3dpoint(a)
+        elif rs.ObjectType(a)!= 1: #item is not a point
+            designation = 1
     except:
+        #item already an array object for use
         b = a
-        
-    return b
+    
+    if designation == 0:
+        return b
+    else:
+        rs.UnselectAllObjects()
+        print "Collecting point value but is another object type"
+        rs.SelectObject(a)
+        exit()
 
 def dot(a,b):
-    
     a = ptCheck(a)
     b = ptCheck(b)
     
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
+
+def dist(a,b):
+    a = ptCheck(a)
+    b = ptCheck(b)
     
+    return ma.sqrt((b[0]-a[0])*(b[0]-a[0]) + (b[1]-a[1])*(b[1]-a[1]) + (b[2]-a[2])*(b[2]-a[2]))
+
+def vecDist(a):
+    a = ptCheck(a)
+    
+    return ma.sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2])
+
+def vecAdd(a,b):
+    a = ptCheck(a)
+    b = ptCheck(b)
+    
+    return (a[0]+b[0],a[1]+b[1],a[2]+b[2])
+
+def vecSub(a,b):
+    a = ptCheck(a)
+    b = ptCheck(b)
+    
+    return (b[0]-a[0],b[1]-a[1],b[2]-a[2])
 
 
-#how do you identify objects from an id to an actual set of 3 coordinate values
 
-#split between it being a 
 
-pt1 = rs.ObjectsByLayer("Default")[0]
-#so if there's only  one object, it's defined within each item... so the [] array parameter inside another array is what's causing the 'none' results to occur.
-#lists have to be idnividually handled
 
-pt2 = (0,0,10)
-
-print dot(pt1,pt2)
-
-#parser for information
+pt1 = (0,0,0)
+pt2 = (2,0,0)
+print dist(pt1,pt2)

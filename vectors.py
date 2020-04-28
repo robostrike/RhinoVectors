@@ -15,10 +15,10 @@ import operator as op
 import math as ma
 
 def ptCheck(a):
-    #determines if the submitted point is a point object in space or 
-    #is an array value
-    #or other
+    #determines if the submitted point is a point object in space or array value
+    #if object is 
     
+    #designation implemented 
     designation = 0
     
     try:

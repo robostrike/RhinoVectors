@@ -137,7 +137,7 @@ def pLineIn(pt, lnPt1,lnPt2):
     for i in range(3):
         if v1[i]!= 0:
             #determine value relative from x/y/z perspective
-            val.append((lnPt1[i] - pt[i]/v1[i])
+            val.append((lnPt1[i] - pt[i]/v1[i]))
     
     #assume it's the same value because it should be
     counter = 1
@@ -164,7 +164,7 @@ def linDiv (eq, eq2, set):
     return [eq[i] - eq2[i]*value for i in range(len(eq))]
 #linear equation subtraction
 def linSub (eq, eq2):
-    return [eq[i] - eq2[i] for in range(len(eq))]
+    return [eq[i] - eq2[i] for i in range(len(eq))]
 #point closest plane value
 #plane is systematic of rhinoscript plane
 def pPlane(plane, pt):

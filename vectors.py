@@ -168,8 +168,23 @@ def linSub (eq, eq2):
 #point closest plane value
 #plane is systematic of rhinoscript plane
 def pPlane(plane, pt):
-
-
-pt1 = (0,0,0)
-pt2 = (2,0,0)
-print midPoint(pt1,pt2)
+    px=  [plane[1][0],plane[2][0],plane[3][0], pt[0]-plane[0][0]]
+    py = [plane[1][1],plane[2][1],plane[3][1], pt[1]-plane[0][1]]
+    pz = [plane[1][2],plane[2][2],plane[3][2], pt[2]-plane[0][2]]
+    
+    #value preset if first set is 0
+    pXY = py
+    pXZ = pz
+    
+    if plane[1][1] != 0:
+        pXY = linDiv(px,py,0)
+    if plane[1][2] != 0:
+        pXZ = linDiv(px,pz,0)
+    
+    pYZ = linSub(pXY,pXZ)
+    
+    if pXZ[1]!= 0:
+        pYZ = linDiv(pXY,pXZ,1)
+    
+    lamb = pYZ[3]/pYZ[2]
+    return vecAdd(pt, vecMult(plane[3],-lamb))

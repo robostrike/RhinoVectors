@@ -17,10 +17,10 @@ class randVal:
     a1 = 1664525
     mn = ma.pow(2,32)
     
-    def __init__(self, initial,val):
+    def __init__(self, seed,val):
         #creates a call stack of an initial value and the scope of value (from 0 to val)
         #eg. rand = randVal(12,23) to initiate an initial random value of 12 with the array stack going up to 23 values.
-        self.x1 = initial
+        self.x1 = seed
         self.mo = val
     
     def next(self):

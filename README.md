@@ -1,6 +1,8 @@
 # RhinoVectors
 A series of vector functions to assist with Rhinoscript
 
+
+
 vectors.py
 
 Incorporates linear algebra definitions for point utility

@@ -13,9 +13,11 @@ import operator as op
 import math as ma
 
 def layerSet(text,color):
+    #deletes existing information regarding this layer
     if rs.LayerId(text):
         rs.DeleteObjects(rs.ObjectsByLayer(text))
         rs.PurgeLayer(text)
     
+    #recomputes layer as new layer
     rs.AddLayer(text,color)
 

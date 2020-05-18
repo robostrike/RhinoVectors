@@ -20,9 +20,10 @@ Lessons learned having developed a coding practice at the Quicken Loans
 metal panel facade in 2018-2019 in the Rhino + Grasshopper + Pythonscript 
 scene. Here are some key take aways:
 
-- Build temporary layers that will allow you to manipulate objects in before
-sending them into a separate more secure layer. This way repeating objects
-have a space for all its work before submitting to a safe spot.
+- Build temporary layers to store completed objects and ones that will allow 
+you to manipulate objects in before sending them into a separate more secure 
+layer. This way repeating objects have a space for all its work before submitting
+to a safe spot.
 - Delete objects of the temporary layer once each action is completed. You can go
 as far as deleting the layer itself, but as long as all objects of that layer are
 gone, then you're ready to move onto the next object. Failure to do so will create

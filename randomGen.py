@@ -38,6 +38,6 @@ class randVal:
 
 def map(domain,rand):
     #domain is the range from 0 to domain that the map will correlate to
-    #rand is the class object of randVal
+    #rand is the class object of randVal used in the formation of domain
     
     return domain*rand.next()/rand.value()

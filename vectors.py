@@ -40,6 +40,28 @@ def ptCheck(a):
         rs.SelectObject(a)
         exit()
 
+def planeCheck(a):
+    #determines if the submitted plane is a plane object
+    #there's 4 point references (origin, x, y, z axis)
+    count = 0
+    try:
+        for i in range(len(a)):
+            #just checks to see if it's an object at this bin, of 4 items
+            if len(a[i]) == 3:
+                count = count + 1
+    except:
+        pass
+    
+    if count == 4:
+        #valid item
+        return a
+    
+    
+    else:
+        print "Invalid plane"
+        print a
+        exit()
+
 #dot product of two vectors
 def vecDot(a,b):
     a = ptCheck(a)
@@ -115,8 +137,23 @@ def midPoint(a,b):
     
     return ((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2)
 
-#point closest along line
-def pLineInt(pt, lnPt1,lnPt2):
+#point and domain value of closest point along straight line
+def pLine(pt, lnPt1,lnPt2):
+    #pt references existing point reference
+    #lnPt1 denotes the starting point of the line
+    #lnPt2 denotes the ending point of the line
+    
+    pt = ptCheck(pt)
+    lnPt1 = ptCheck(lnPt1)
+    lnPt2 = ptCheck(lnPt2)
+    
+    if dist(lnPt1,lnPt2) < 0.005:
+        print "Two Points of line are both same value, cannot compute"
+        print lnPt1,lnPt2
+        exit()
+    
+    
+    #determine point position
     v1 = vecSubUnit(lnPt1,lnPt2)
     qx = lnPt1[0] - pt[0]
     qy = lnPt1[1] - pt[1]
@@ -125,37 +162,18 @@ def pLineInt(pt, lnPt1,lnPt2):
     top = qx*v1[0] + qy*v1[1] + qz*v1[2]
     bot = v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2]
     
-    division = top / bottom
+    division = top / bot
+    position = vecAdd(lnPt1, vecMult(v1,-division))
     
-    return vecAdd(lnPt1, vecMult(v1,-division))
-
-#point in relationship to the line in question
-#(0,1) is within, and <0 is beyond start point, >1 is beyond the end point
-def pLineIn(pt, lnPt1,lnPt2):
-    v1 = vecSub(lnPt1, lnPt2)
-    val = []
-    for i in range(3):
-        if v1[i]!= 0:
-            #determine value relative from x/y/z perspective
-            val.append((lnPt1[i] - pt[i]/v1[i]))
+    #determine from domain of from lnPt1.
+    #0 is closest to lnPt1, 1 is closest to lnPt2
+    v2 = vecSubUnit(lnPt1, position)
+    lnPtDist = dist(lnPt1,lnPt2)
+    ptDist = dist(lnPt1, position)
+    quotient = vecDot(vecUnit(v2),vecUnit(v1))*ptDist/lnPtDist
     
-    #assume it's the same value because it should be
-    counter = 1
-    for i in range(len(val)):
-        for j in range(len(val)):
-            if i!=j:
-                if val[i] != val[j]:
-                    counter == 0
-    
-    if counter == 1:
-        quotient = val[0]
-    else:
-        quotient = -1000
-        print "Error, point could not represent a value along line"
-        exit()
-    del val
-    
-    return quotient
+    #returns the position, and domain value
+    return (position,quotient)
 
 #solve linear algebra to determine point on plane
 #linear equation division
@@ -168,6 +186,9 @@ def linSub (eq, eq2):
 #point closest plane value
 #plane is systematic of rhinoscript plane
 def pPlane(plane, pt):
+    pt = ptCheck(pt)
+    plane = planeCheck(plane)
+    
     px=  [plane[1][0],plane[2][0],plane[3][0], pt[0]-plane[0][0]]
     py = [plane[1][1],plane[2][1],plane[3][1], pt[1]-plane[0][1]]
     pz = [plane[1][2],plane[2][2],plane[3][2], pt[2]-plane[0][2]]

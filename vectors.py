@@ -139,6 +139,8 @@ def midPoint(a,b):
 
 #point and domain value of closest point along straight line
 def pLine(pt, lnPt1,lnPt2):
+    
+    
     #pt references existing point reference
     #lnPt1 denotes the starting point of the line
     #lnPt2 denotes the ending point of the line
@@ -209,3 +211,13 @@ def pPlane(plane, pt):
     
     lamb = pYZ[3]/pYZ[2]
     return vecAdd(pt, vecMult(plane[3],-lamb))
+
+def lnln(ptA1,ptA2,ptB1,ptB2):
+    #incomplete
+    
+    #determines the position of nearest point connection and type
+    #1 = colinear and both lines are parallel and together
+    #2 = closest point but not touching
+    #3 = intersection at one point
+    
+    return 0

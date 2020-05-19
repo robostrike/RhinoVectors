@@ -147,7 +147,7 @@ def pLine(pt, lnPt1,lnPt2):
     lnPt1 = ptCheck(lnPt1)
     lnPt2 = ptCheck(lnPt2)
     
-    if dist(lnPt1,lnPt2) < 0.005:
+    if dist(lnPt1,lnPt2) < 0.00005:
         print "Two Points of line are both same value, cannot compute"
         print lnPt1,lnPt2
         exit()

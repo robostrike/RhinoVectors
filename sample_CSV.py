@@ -1,4 +1,14 @@
-import rhinoscriptsyntax as rs
+"""
+This code is to develop a sample comma separated value for use in Rhinoscript
+Vers. 1.0:
+    writes a sample file onto the computer
+    reads from the same file and stored in an array
+
+Developed by Robostrike
+Started on May 20, 2020
+
+"""
+
 import csv
 import os
 

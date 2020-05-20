@@ -257,7 +257,7 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
     if type == 1:
         return (1,ptA1,0,ptB1,0,0)
     elif type == 2:
-        return (2,ptA1,0,ptB1,0,dist(ptA1,ptLine(ptA1,ptB1,ptB2)))
+        return (2,ptA1,0,ptB1,0,dist(ptA1,ptLine(ptA1,ptB1,ptB2)[0]))
     
     elif type == 3:
         return (3)
@@ -268,10 +268,3 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
     else:
         #not any other type registered currently
         return 0
-
-pt1 = (0,0,1)
-pt2 = (2,2,1)
-pt3 = (1,1,5)
-pt4 = (4,4,5)
-
-print lnln(pt1,pt2,pt3,pt4)

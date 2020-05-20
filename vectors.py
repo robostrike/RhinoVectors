@@ -242,11 +242,12 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
     if op.abs(v12Dot) == 1:
         #check if it is a type 1 and if two of its values are the same
         pointRef = ptLine(ptA1,ptB1,ptB2)
-        if op.abs(pointRef[1]) < 0.00005:
+        if dist(pointRef[0],ptA1) < 0.0005:
             type = 1
         else:
             type = 2
         
+        del pointRef
     else:
         #check if they overlap or have a gap
         type = 3

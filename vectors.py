@@ -241,29 +241,36 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
     #determines colinearity by dot product = 1 (as either -1 or 1)
     if op.abs(v12Dot) == 1:
         #check if it is a type 1 and if two of its values are the same
-        check = []
-        for i in range(len(ptA1)):
-            if op.abs(v1[i]) > 0.0005:
-                check.append((ptB1[i]-ptA1[i])/v1[i])
-        
-        #determines if the values are the same (1), else (2)
-        if len(check) == 1:
-            #movement only in one axis and is valid
+        pointRef = ptLine(ptA1,ptB1,ptB2)
+        if op.abs(pointRef[1]) < 0.00005:
             type = 1
-        elif len(check) > 1:
-            #if two or more vector differences occur.
-            if op.abs(check[0]-check[1]) < 0.0005:
-                type = 1
-            else:
-                type = 2
+        else:
+            type = 2
         
+    else:
+        #check if they overlap or have a gap
+        type = 3
+        
+    
     
     if type == 1:
         return (1,ptA1,0,ptB1,0,0)
     elif type == 2:
         return (2,ptA1,0,ptB1,0,dist(ptA1,ptLine(ptA1,ptB1,ptB2)))
     
+    elif type == 3:
+        return (3)
+    
+    elif type == 4:
+        return (4)
+    
     else:
         #not any other type registered currently
         return 0
 
+pt1 = (0,0,1)
+pt2 = (2,2,1)
+pt3 = (1,1,5)
+pt4 = (4,4,5)
+
+print lnln(pt1,pt2,pt3,pt4)

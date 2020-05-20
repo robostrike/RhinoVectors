@@ -14,6 +14,10 @@ randomGen.py
 
 A random number generator, varied by seed, to conduct controlled random values. There also includes a map function to tie within a certain scope from 0 to alloted value in association to it.
 
+sample_CSV.py
+
+A simple read write reference document for reading and writing comma separated values. Super useful in collaboration with Solidwork's design table or generating your own simple read write value system. It's a tool you will only see once but references are littered all over the place. Not all programming options are available within the Rhinoscript space as the application does not offer import reader or pandas.
+
 GENERAL NOTES
 
 Lessons learned having developed a coding practice at the Quicken Loans metal panel facade in 2018-2019 in the Rhino + Grasshopper + Pythonscript scene. Here are some key take aways:

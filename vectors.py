@@ -138,7 +138,7 @@ def midPoint(a,b):
     return ((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2)
 
 #point and domain value of closest point along straight line
-def pLine(pt, lnPt1,lnPt2):
+def ptLine(pt, lnPt1,lnPt2):
     
     
     #pt references existing point reference
@@ -187,7 +187,7 @@ def linSub (eq, eq2):
     return [eq[i] - eq2[i] for i in range(len(eq))]
 #point closest plane value
 #plane is systematic of rhinoscript plane
-def pPlane(plane, pt):
+def ptPlane(plane, pt):
     pt = ptCheck(pt)
     plane = planeCheck(plane)
     
@@ -213,11 +213,57 @@ def pPlane(plane, pt):
     return vecAdd(pt, vecMult(plane[3],-lamb))
 
 def lnln(ptA1,ptA2,ptB1,ptB2):
+    #returns the the type of connection, the point of each reference, and position 
+    #from ptA1 and ptB1, and distance if possible between each other
+    
     #incomplete
+    ptA1 = ptCheck(ptA1)
+    ptA2 = ptCheck(ptA2)
+    ptB1 = ptCheck(ptB1)
+    ptB2 = ptCheck(ptB2)
     
-    #determines the position of nearest point connection and type
+    
+    #determines the position of nearest point connection and type (identifier)
     #1 = colinear and both lines are parallel and together
-    #2 = closest point but not touching
-    #3 = intersection at one point
+    #2 = colinear and both lines are equidistant apart
+    #3 = closest point but not touching
+    #4 = intersection at one point
+    type = 0
     
-    return 0
+    
+    #separate 12 with 34 by checking their vectors
+    v1 = vecSubUnit(ptA1,ptA2)
+    v2 = vecSubUnit(ptB1,ptB2)
+    
+    
+    v12Dot = vecDot(v1,v2)
+    
+    #determines colinearity by dot product = 1 (as either -1 or 1)
+    if op.abs(v12Dot) == 1:
+        #check if it is a type 1 and if two of its values are the same
+        check = []
+        for i in range(len(ptA1)):
+            if op.abs(v1[i]) > 0.0005:
+                check.append((ptB1[i]-ptA1[i])/v1[i])
+        
+        #determines if the values are the same (1), else (2)
+        if len(check) == 1:
+            #movement only in one axis and is valid
+            type = 1
+        elif len(check) > 1:
+            #if two or more vector differences occur.
+            if op.abs(check[0]-check[1]) < 0.0005:
+                type = 1
+            else:
+                type = 2
+        
+    
+    if type == 1:
+        return (1,ptA1,0,ptB1,0,0)
+    elif type == 2:
+        return (2,ptA1,0,ptB1,0,dist(ptA1,ptLine(ptA1,ptB1,ptB2)))
+    
+    else:
+        #not any other type registered currently
+        return 0
+

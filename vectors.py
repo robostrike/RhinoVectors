@@ -282,8 +282,6 @@ def matrixMultConst(a,b):
     return result
 
 def lnln(ptA1,ptA2,ptB1,ptB2):
-    #incomplete / inaccurate
-    
     #returns the the type of connection, the point of each reference, and position
     #from ptA1 and ptB1, and distance if possible between each other
     
@@ -342,6 +340,7 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
             del oB
             del oC
             
+        
         #system of equations to resolve for s and t values
         if (o1[0] == 0) & (o1[1] == 0):
             #unsolveable equation
@@ -351,29 +350,26 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
             #solve linear algebra and isolate for t
             o3 = matrixMultConst(o2,0-o1[0]/o2[0])
             o4 = matrixAdd(o3,o1)
-            st[1] = o4[2]/o4[1]
+            
+            st[1] = 0-o4[2]/o4[1]
+            
             if o1[0] == 0:
+                
                 st[0] = (0-o2[2]-st[1]*o2[1])/o2[0]
             else:
+                
                 st[0] = (0-o1[2]-st[1]*o1[1])/o1[0]
         
         #now that you know what the values of s and t are. Substitute it back
         #into the original equation.
         
-        ptAf = vecAdd(ptA1,vecMult(v1,st[0]))
-        ptBf = vecAdd(ptB1,vecMult(v2,st[1]))
+        ptAf = vecAdd(ptA1,vecMult(v1,st[1]))
+        ptBf = vecAdd(ptB1,vecMult(v2,st[0]))
         
         distance = dist(ptAf,ptBf)
         if distance > 0.0005:
             #type 3
-            return (3,ptAf,vecDist(v1)*st[0],ptBf,vecDist(v2)*st[1],distance)
+            return (3,ptAf,vecDist(v1)*st[1],ptBf,vecDist(v2)*st[0],distance)
         else:
             #type 4
-            return (4,ptAf,vecDist(v1)*st[0],ptBf,vecDist(v2)*st[1],distance)
-
-pt1 = (0,0,0)
-pt2 = (10,0,0)
-pt3 = (0, 5, 0)
-pt4 = (5,0,0)
-
-print lnln(pt1,pt2,pt3,pt4)
+            return (4,ptAf,vecDist(v1)*st[1],ptBf,vecDist(v2)*st[0],distance)

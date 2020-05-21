@@ -230,17 +230,29 @@ def matrixAdd(a,b):
     
     #checks for same size
     check = 0
+    c = 1
+    d = 1
     if len(a) == len(b):
-        if len(a[0]) == len(b[0]):
+        try:
+            #float could be an int if a[0] only contains one value and is not an array
+            c = len(a[0])
+            d = len(b[0])
+        except:
+            pass
+        
+        if c == d:
             check = 1
     
     #if test passes and both are of same size
     if check == 1:
         #create empty array
-        result = [[0 for i in range(len(a[0]))]for j in range(len(a))]
+        result = [[0 for i in range(c)]for j in range(len(a))]
         for i in range(len(a)):
-            for j in range(len(a[0])):
-                result[i][j] = a[i][j] + b[i][j]
+            for j in range(c):
+                if c == 1:
+                    result[i] = a[i] + b[i]
+                else:
+                    result[i][j] = a[i][j] + b[i][j]
         return result
     else:
         #if matrix size is not the same
@@ -250,19 +262,31 @@ def matrixAdd(a,b):
 def matrixMultConst(a,b):
     #matrix a multiplies by constant b
     
+    #check column dimension
+    c = 1
+    try:
+        #float could be an int if a[0] only contains one value and is not an array
+        c = len(a[0])
+    except:
+        pass
+    
     #create empty array
-    result = [[0 for i in range(len(a[0]))] for j in range(len(a))]
+    result = [[0 for i in range(c)] for j in range(len(a))]
     for i in range(len(a)):
-        for j in range(len(a[0])):
-            result[i][j] = a[i][j]*b
+        for j in range(c):
+            if c == 1:
+                result[i] = a[i]*b
+            else:
+                result[i][j] = a[i][j]*b
     
     return result
 
 def lnln(ptA1,ptA2,ptB1,ptB2):
-    #returns the the type of connection, the point of each reference, and position 
+    #incomplete / inaccurate
+    
+    #returns the the type of connection, the point of each reference, and position
     #from ptA1 and ptB1, and distance if possible between each other
     
-    #incomplete
     ptA1 = ptCheck(ptA1)
     ptA2 = ptCheck(ptA2)
     ptB1 = ptCheck(ptB1)
@@ -274,15 +298,19 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
     #2 = colinear and both lines are equidistant apart
     #3 = closest point but not touching
     #4 = intersection at one point
-    type = 0
+    
     
     
     #separate 12 with 34 by checking their vectors
-    v1 = vecSubUnit(ptA1,ptA2)
-    v2 = vecSubUnit(ptB1,ptB2)
+    
+    v1 = vecSub(ptA1,ptA2)
+    v2 = vecSub(ptB1,ptB2)
+    
+    v1Unit = vecUnit(v1)
+    v2Unit = vecUnit(v2)
     
     
-    v12Dot = vecDot(v1,v2)
+    v12Dot = vecDot(v1Unit,v2Unit)
     
     #determines colinearity by dot product = 1 (as either -1 or 1)
     if op.abs(v12Dot) == 1:
@@ -310,6 +338,10 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
             o1 = matrixAdd(o1,oB)
             o2 = matrixAdd(o2,oC)
             
+            del oA
+            del oB
+            del oC
+            
         #system of equations to resolve for s and t values
         if (o1[0] == 0) & (o1[1] == 0):
             #unsolveable equation
@@ -317,13 +349,13 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
             exit()
         else:
             #solve linear algebra and isolate for t
-            o3 = matrixMult(o2,o2[0]/o1[0])
+            o3 = matrixMultConst(o2,0-o1[0]/o2[0])
             o4 = matrixAdd(o3,o1)
             st[1] = o4[2]/o4[1]
             if o1[0] == 0:
-                st[0] = (0-o2[2]-st[1]*o2[1])/os[0]
+                st[0] = (0-o2[2]-st[1]*o2[1])/o2[0]
             else:
-                st[0] = (0-o1[2]-st[1]*o1[1])/os[0]
+                st[0] = (0-o1[2]-st[1]*o1[1])/o1[0]
         
         #now that you know what the values of s and t are. Substitute it back
         #into the original equation.
@@ -332,11 +364,16 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
         ptBf = vecAdd(ptB1,vecMult(v2,st[1]))
         
         distance = dist(ptAf,ptBf)
-        
         if distance > 0.0005:
             #type 3
-            return (3,ptAf,st[0],ptBf,st[1],distance)
+            return (3,ptAf,vecDist(v1)*st[0],ptBf,vecDist(v2)*st[1],distance)
         else:
             #type 4
-            return (4,ptAf,st[0],ptBf,st[1],distance)
+            return (4,ptAf,vecDist(v1)*st[0],ptBf,vecDist(v2)*st[1],distance)
 
+pt1 = (0,0,0)
+pt2 = (10,0,0)
+pt3 = (0, 5, 0)
+pt4 = (5,0,0)
+
+print lnln(pt1,pt2,pt3,pt4)

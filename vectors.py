@@ -5,6 +5,9 @@ Vers. 1.1:
     scripts. Right now having this imported for use on other scripts loses the ability
     for autocomplete to pop out when referencing this script.
 
+Vers. 1.2:
+    Includes matrix manipulation to deal with line line connection
+
 Developed by Robostrike
 Started on April 27, 2020
 """
@@ -13,6 +16,7 @@ Started on April 27, 2020
 import rhinoscriptsyntax as rs
 import operator as op
 import math as ma
+
 
 def ptCheck(a):
     #determines if the submitted point is a point object in space or array value
@@ -62,48 +66,54 @@ def planeCheck(a):
         print a
         exit()
 
-#dot product of two vectors
+
 def vecDot(a,b):
+    #dot product of two vectors
     a = ptCheck(a)
     b = ptCheck(b)
     
     return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]
 
-#distance between two points
+
 def dist(a,b):
+    #distance between two points
     a = ptCheck(a)
     b = ptCheck(b)
     
     return ma.sqrt((b[0]-a[0])*(b[0]-a[0]) + (b[1]-a[1])*(b[1]-a[1]) + (b[2]-a[2])*(b[2]-a[2]))
 
-#distance of point to origin
+
 def vecDist(a):
+    #distance of point to origin
     a = ptCheck(a)
     
     return ma.sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2])
 
-#add two vectors
+
 def vecAdd(a,b):
+    #add two vectors
     a = ptCheck(a)
     b = ptCheck(b)
     
     return (a[0]+b[0],a[1]+b[1],a[2]+b[2])
 
-#subtract two vectors a --> b
+
 def vecSub(a,b):
+    #subtract two vectors a --> b
     a = ptCheck(a)
     b = ptCheck(b)
     
     return (b[0]-a[0],b[1]-a[1],b[2]-a[2])
 
-#multiply one vector by a constant value 'b'
+
 def vecMult(a,b):
+    #multiply one vector by a constant value 'b'
     a = ptCheck(a)
     
     return (a[0]*b,a[1]*b,a[2]*b)
 
-#cross product of two variables
 def vecCross(a,b):
+    #cross product of two variables
     a = ptCheck(a)
     b = ptCheck(b)
     
@@ -111,8 +121,9 @@ def vecCross(a,b):
     
     return c
 
-#unit vector of one variable
+
 def vecUnit(a):
+    #unit vector of one variable
     a = ptCheck(a)
     b = dist(a,(0,0,0))
     
@@ -137,9 +148,9 @@ def midPoint(a,b):
     
     return ((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2)
 
-#point and domain value of closest point along straight line
+
 def ptLine(pt, lnPt1,lnPt2):
-    
+    #point and domain value of closest point along straight line
     
     #pt references existing point reference
     #lnPt1 denotes the starting point of the line
@@ -178,16 +189,18 @@ def ptLine(pt, lnPt1,lnPt2):
     return (position,quotient)
 
 #solve linear algebra to determine point on plane
-#linear equation division
 def linDiv (eq, eq2, set):
+    #linear equation division
     value = eq[set]/eq2[set]
     return [eq[i] - eq2[i]*value for i in range(len(eq))]
-#linear equation subtraction
+
 def linSub (eq, eq2):
+    #linear equation subtraction
     return [eq[i] - eq2[i] for i in range(len(eq))]
-#point closest plane value
-#plane is systematic of rhinoscript plane
+
 def ptPlane(plane, pt):
+    #point closest plane value
+    
     pt = ptCheck(pt)
     plane = planeCheck(plane)
     
@@ -211,6 +224,39 @@ def ptPlane(plane, pt):
     
     lamb = pYZ[3]/pYZ[2]
     return vecAdd(pt, vecMult(plane[3],-lamb))
+
+def matrixAdd(a,b):
+    #matrix a and b are added together (must be same size)
+    
+    #checks for same size
+    check = 0
+    if len(a) == len(b):
+        if len(a[0]) == len(b[0]):
+            check = 1
+    
+    #if test passes and both are of same size
+    if check == 1:
+        #create empty array
+        result = [[0 for i in range(len(a[0]))]for j in range(len(a))]
+        for i in range(len(a)):
+            for j in range(len(a[0])):
+                result[i][j] = a[i][j] + b[i][j]
+        return result
+    else:
+        #if matrix size is not the same
+        print "matrix size is not the same"
+        return None
+
+def matrixMultConst(a,b):
+    #matrix a multiplies by constant b
+    
+    #create empty array
+    result = [[0 for i in range(len(a[0]))] for j in range(len(a))]
+    for i in range(len(a)):
+        for j in range(len(a[0])):
+            result[i][j] = a[i][j]*b
+    
+    return result
 
 def lnln(ptA1,ptA2,ptB1,ptB2):
     #returns the the type of connection, the point of each reference, and position 
@@ -243,28 +289,54 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
         #check if it is a type 1 and if two of its values are the same
         pointRef = ptLine(ptA1,ptB1,ptB2)
         if dist(pointRef[0],ptA1) < 0.0005:
-            type = 1
+            return (1,ptA1,0,ptB1,0,0)
         else:
-            type = 2
+            return (2,ptA1,0,ptB1,0,dist(ptA1,pointRef[0]))
         
         del pointRef
     else:
-        #check if they overlap or have a gap
-        type = 3
+        #solve linear equation. If possible, then it's type 4, else, type 3.
+        #v12 is vector from line 1 to line 2 closest value
+        #[s,t,c] where s is for v1 to point of A, t is for v2 to point of B
+        #c is constant
+        o1 = [0,0,0]
+        o2 = [0,0,0]
+        st = [0,0,0]
+        for i in range(len(ptA1)):
+            oA = [v2[i],0-v1[i],ptB1[i]-ptA1[i]]
+            oB = matrixMultConst(oA,v1[i])
+            oC = matrixMultConst(oA,v2[i])
+            
+            o1 = matrixAdd(o1,oB)
+            o2 = matrixAdd(o2,oC)
+            
+        #system of equations to resolve for s and t values
+        if (o1[0] == 0) & (o1[1] == 0):
+            #unsolveable equation
+            print "Cannot compute value due to cancelled terms"
+            exit()
+        else:
+            #solve linear algebra and isolate for t
+            o3 = matrixMult(o2,o2[0]/o1[0])
+            o4 = matrixAdd(o3,o1)
+            st[1] = o4[2]/o4[1]
+            if o1[0] == 0:
+                st[0] = (0-o2[2]-st[1]*o2[1])/os[0]
+            else:
+                st[0] = (0-o1[2]-st[1]*o1[1])/os[0]
         
-    
-    
-    if type == 1:
-        return (1,ptA1,0,ptB1,0,0)
-    elif type == 2:
-        return (2,ptA1,0,ptB1,0,dist(ptA1,ptLine(ptA1,ptB1,ptB2)[0]))
-    
-    elif type == 3:
-        return (3)
-    
-    elif type == 4:
-        return (4)
-    
-    else:
-        #not any other type registered currently
-        return 0
+        #now that you know what the values of s and t are. Substitute it back
+        #into the original equation.
+        
+        ptAf = vecAdd(ptA1,vecMult(v1,st[0]))
+        ptBf = vecAdd(ptB1,vecMult(v2,st[1]))
+        
+        distance = dist(ptAf,ptBf)
+        
+        if distance > 0.0005:
+            #type 3
+            return (3,ptAf,st[0],ptBf,st[1],distance)
+        else:
+            #type 4
+            return (4,ptAf,st[0],ptBf,st[1],distance)
+

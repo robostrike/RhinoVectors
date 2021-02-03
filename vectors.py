@@ -8,6 +8,9 @@ Vers. 1.1:
 Vers. 1.2:
     Includes matrix manipulation to deal with line line connection
 
+Vers. 1.3:
+    Includes plane and line intersection
+
 Developed by Robostrike
 Started on April 27, 2020
 """
@@ -373,3 +376,35 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
         else:
             #type 4
             return (4,ptAf,vecDist(v1)*st[1],ptBf,vecDist(v2)*st[0],distance)
+
+
+def planeln (plane, ptA1, ptA2):
+    #determines the intersection point, or identify its parallelism
+    
+    ptA1 = ptCheck(ptA1)
+    ptA2 = ptCheck(ptA2)
+    
+    plane = planeCheck(plane)
+    
+    #vector geometry calculation
+    if dist(ptA1,ptA2) < 0.001:
+        print ("Line distance too short")
+        exit()
+    
+    vecA = vecSub(ptA2,ptA1)  #vectorA
+    pDist = vecSub(ptA1,plane[0])  #distance between static point of plane and line
+    den = vecDot(vecMult(vecA,-1), plane[3])
+    
+    if op.abs(den) < 0.001:
+        print "No unique solution"
+        return (1, "No Unique Solution")
+    
+    crossU = vecCross(plane[2],vecMult(vecA,-1))
+    crossV = vecCross(vecMult(vecA,-1),plane[1])
+    
+    t = vecDot(plane[3],pDist) / den
+    u = vecDot(crossU,pDist) / den
+    v = vecDot(crossV,pDist) / den
+    
+    pointF = vecAdd(ptA1,vecMult(vecA,-t))
+    return (0,t,pointF)

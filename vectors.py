@@ -287,6 +287,9 @@ def matrixMultConst(a,b):
 def lnln(ptA1,ptA2,ptB1,ptB2):
     #returns the the type of connection, the point of each reference, and position
     #from ptA1 and ptB1, and distance if possible between each other
+    #[type, intersection point A, val within A (0-1 is within), 
+    #       intersection point B, val within B (0-1 is within, distance if parallel]
+    
     
     ptA1 = ptCheck(ptA1)
     ptA2 = ptCheck(ptA2)
@@ -372,10 +375,10 @@ def lnln(ptA1,ptA2,ptB1,ptB2):
         distance = dist(ptAf,ptBf)
         if distance > 0.0005:
             #type 3
-            return (3,ptAf,vecDist(v1)*st[1],ptBf,vecDist(v2)*st[0],distance)
+            return (3,ptAf,st[1],ptBf,st[0],distance)
         else:
             #type 4
-            return (4,ptAf,vecDist(v1)*st[1],ptBf,vecDist(v2)*st[0],distance)
+            return (4,ptAf,st[1],ptBf,st[0],distance)
 
 
 def planeln (plane, ptA1, ptA2):

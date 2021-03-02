@@ -11,7 +11,6 @@ Developed by Robostrike
 Started on March 1, 2021
 """
 
-
 import rhinoscriptsyntax as rs
 import operator as op
 import math as ma

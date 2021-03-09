@@ -171,14 +171,14 @@ class vec():
         bot = v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2]
         
         division = top / bot
-        position = self.add(lnPt1, mult(v1,-division))
+        position = self.add(lnPt1, self.mult(v1,-division))
         
         #determine from domain of from lnPt1.
         #0 is closest to lnPt1, 1 is closest to lnPt2
         v2 = self.subUnit(lnPt1, position)
         lnPtDist = self.dist(lnPt1,lnPt2)
         ptDist = self.dist(lnPt1, position)
-        quotient = self.vecDot(self.vecUnit(v2),self.vecUnit(v1))*ptDist/lnPtDist
+        quotient = self.dot(self.vecUnit(v2),self.vecUnit(v1))*ptDist/lnPtDist
         
         #returns the position, and domain value
         return (position,quotient)
@@ -306,7 +306,7 @@ class vec():
         v2Unit = self.vecUnit(v2)
         
         
-        v12Dot = self.vecDot(v1Unit,v2Unit)
+        v12Dot = self.dot(v1Unit,v2Unit)
         
         #determines colinearity by dot product = 1 (as either -1 or 1)
         if op.abs(v12Dot) == 1:
@@ -388,7 +388,7 @@ class vec():
         
         vecA = self.sub(ptA2,ptA1)  #vectorA
         pDist = self.sub(ptA1,plane[0])  #distance between static point of plane and line
-        den = self.vecDot(mult(vecA,-1), plane[3])
+        den = self.dot(mult(vecA,-1), plane[3])
         
         if op.abs(den) < 0.001:
             print "No unique solution"
@@ -397,9 +397,14 @@ class vec():
         crossU = self.cross(plane[2],self.mult(vecA,-1))
         crossV = self.cross(self.mult(vecA,-1),plane[1])
         
-        t = self.vecDot(plane[3],pDist) / den
-        u = self.vecDot(crossU,pDist) / den
-        v = self.vecDot(crossV,pDist) / den
+        t = self.dot(plane[3],pDist) / den
+        u = self.dot(crossU,pDist) / den
+        v = self.dot(crossV,pDist) / den
         
         pointF = self.add(ptA1,self.mult(vecA,-t))
         return (0,t,pointF)
+
+
+"""
+Initiate with v = vec()
+"""

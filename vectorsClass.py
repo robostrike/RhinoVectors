@@ -175,13 +175,16 @@ class vec():
         
         #determine from domain of from lnPt1.
         #0 is closest to lnPt1, 1 is closest to lnPt2
-        v2 = self.subUnit(lnPt1, position)
+        v2 = self.sub(lnPt1, position)
         lnPtDist = self.dist(lnPt1,lnPt2)
         ptDist = self.dist(lnPt1, position)
-        quotient = self.dot(self.vecUnit(v2),self.vecUnit(v1))*ptDist/lnPtDist
-        
-        #returns the position, and domain value
-        return (position,quotient)
+        if op.abs(self.vecDist(v2)) < 0.001:
+            return (position, 0)
+        else:
+            quotient = self.dot(self.vecUnit(v2),self.vecUnit(v1))*ptDist/lnPtDist
+            
+            #returns the position, and domain value
+            return (position,quotient)
     
     def linDiv (self,eq, eq2, set):
         #linear equation division
@@ -309,13 +312,13 @@ class vec():
         v12Dot = self.dot(v1Unit,v2Unit)
         
         #determines colinearity by dot product = 1 (as either -1 or 1)
-        if op.abs(v12Dot) == 1:
+        if op.abs(v12Dot) > .999:
             #check if it is a type 1 and if two of its values are the same
             pointRef = self.ptLine(ptA1,ptB1,ptB2)
             if self.dist(pointRef[0],ptA1) < 0.0005:
                 return (1,ptA1,0,ptB1,0,0)
             else:
-                return (2,ptA1,0,ptB1,0,dist(ptA1,pointRef[0]))
+                return (2,ptA1,0,ptB1,0,self.dist(ptA1,pointRef[0]))
             
             del pointRef
         else:

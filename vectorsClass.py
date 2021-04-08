@@ -9,7 +9,15 @@ Vers. 1.2:
 
 Developed by Robostrike
 Started on March 1, 2021
+
+
+
+***
+Initiate with v = vec()
+***
+
 """
+
 
 import rhinoscriptsyntax as rs
 import operator as op
@@ -142,6 +150,14 @@ class vec():
         b = self.ptCheck(b)
         
         return ((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2)
+    
+    
+    def massVA(self,set):
+        #(pt1,pt2,...ptN)
+        ptSet = (0,0,0)
+        for i in range(len(set)):
+            ptSet = self.add(ptSet,set[i])
+        return ptSet
     
     
     def ptLine(self,pt, lnPt1,lnPt2):
@@ -407,7 +423,3 @@ class vec():
         pointF = self.add(ptA1,self.mult(vecA,-t))
         return (0,t,pointF)
 
-
-"""
-Initiate with v = vec()
-"""

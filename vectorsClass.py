@@ -153,6 +153,8 @@ class vec():
     
     
     def massVA(self,set):
+        #adds a multitude of point items
+        
         #(pt1,pt2,...ptN)
         ptSet = (0,0,0)
         for i in range(len(set)):

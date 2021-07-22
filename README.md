@@ -4,11 +4,15 @@ A series of vector functions to assist with Rhinoscript
 
 controlSys.py
 
-Contains a variety of logistical management tools
+Contains a variety of logistical management tools. Useful for starting new projects (still WIP)
 
 vectors.py
 
 Incorporates linear algebra definitions for point utility
+
+vectorClass.py
+
+Class version of vectors, this way you can store everything within on script by copy pasting. Currently Rhinoscript makes it difficult to cross reference classes or functions from other scripts without breaking the drop down menu. With a class, you can save a lot of space and keep the drop down menu when scripting within its Iron Python environment.
 
 randomGen.py
 

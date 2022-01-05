@@ -24,9 +24,11 @@ class vec():
     
     Command List:
     
+    CHECKS
     ptCheck     Checks for validity of point for usage
     planeCheck  Checks for validity of plane for usage
     
+    VECTORS
     dot         Computes dot product of two vectors
     dist        Computes the distance between two points
     vecDist     Computes the scalar magnitude of the vector
@@ -40,7 +42,15 @@ class vec():
     crossUnit   Computes cross multiplication and scale to magnitude of 1
     midPoint    Computes the mid point value of two points
     massVA      Computes the addition of all point and vector values of a (set)
-    addMult     adds the first vector to a scalar multiplication of another vector
+    addMult     Adds the first vector to a scalar multiplication of another vector
+    
+    EQUATION SYSTEMS
+    ptLn        Computes the point closest to a line (point, value)
+    ptPl        Computes the point closest to a plane
+    lnLn        Computes the line closest to line intersection
+    lnPl        Computes the line to a plane intersection
+    plPl        Computes the plane to a plane vector intersection
+    
     """
     
     
@@ -90,7 +100,18 @@ class vec():
     
     #dot product
     def dot(self,a,b):
-        
+        """Computes the dot product of two vectors
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          number: overlap amount between first vector to second vector
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.dot(point1,point2)
+        """
         a = self.ptCheck(a)
         b = self.ptCheck(b)
         
@@ -187,7 +208,7 @@ class vec():
         return self.add(a,self.mult(b,c))
     
     
-    def ptLine(self,pt, lnPt1,lnPt2):
+    def ptLn(self,pt, lnPt1,lnPt2):
         #point and domain value of closest point along straight line
         
         #pt references existing point reference
@@ -239,7 +260,7 @@ class vec():
         #linear equation subtraction
         return [eq[i] - eq2[i] for i in range(len(eq))]
     
-    def ptPlane(self,plane, pt):
+    def ptPl(self,plane, pt):
         #point closest plane value
         
         pt = self.ptCheck(pt)
@@ -323,7 +344,7 @@ class vec():
         
         return result
     
-    def lnln(self,ptA1,ptA2,ptB1,ptB2):
+    def lnLn(self,ptA1,ptA2,ptB1,ptB2):
         #returns the the type of connection, the point of each reference, and position
         #from ptA1 and ptB1, and distance if possible between each other
         #[type, intersection point A, val within A (0-1 is within), 
@@ -420,7 +441,7 @@ class vec():
                 return (4,ptAf,st[1],ptBf,st[0],distance)
     
     
-    def planeln (self,plane, ptA1, ptA2):
+    def lnPl (self,plane, ptA1, ptA2):
         #determines the intersection point, or identify its parallelism
         
         ptA1 = self.ptCheck(ptA1)
@@ -450,4 +471,3 @@ class vec():
         
         pointF = self.add(ptA1,self.mult(vecA,-t))
         return (0,t,pointF)
-

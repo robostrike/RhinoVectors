@@ -6,6 +6,8 @@ Vers. 1.1:
 Vers. 1.2:
     To complete still: do all case study test to ensure it works because transfers may
     cause bugs
+Vers. 1.3:
+    Added a ton of comments to speed up function call designations and clean up code
 
 Developed by Robostrike
 Started on March 1, 2021
@@ -21,6 +23,7 @@ class vec():
     
     """
     Initiate with v = vec()
+    
     
     Command List:
     
@@ -55,6 +58,9 @@ class vec():
     
     
     def ptCheck(self,a):
+        #determines if the submitted point or vector is valid
+        #(x value, y value, z value)
+        
         designation = 0
         
         try:
@@ -78,7 +84,7 @@ class vec():
     
     def planeCheck(self,a):
         #determines if the submitted plane is a plane object
-        #there's 4 point references (origin, x, y, z axis)
+        #(origin, x axis, y axis, z axis)
         count = 0
         try:
             for i in range(len(a)):
@@ -118,21 +124,53 @@ class vec():
         return (a[0]*b[0] + a[1]*b[1] + a[2]*b[2])
     
     def dist(self,a,b):
-        
+        """Computes the distance between points
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          number: scalar magnitude between two points
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.dist(point1,point2)
+        """
         a = self.ptCheck(a)
         b = self.ptCheck(b)
         
         return ma.sqrt((b[0]-a[0])*(b[0]-a[0]) + (b[1]-a[1])*(b[1]-a[1]) + (b[2]-a[2])*(b[2]-a[2]))
     
     def vecDist(self,a):
-        #distance of point to origin
+        """Computes the scalar magnitude of the intended vector
+        Parameters:
+          point1: point 3d or referenced point
+        Returns:
+          number: scalar magnitude of the vector
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.vecDist(point1)
+        """
         a = self.ptCheck(a)
         
         return ma.sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2])
     
     
     def add(self,a,b):
-        #add two vectors
+        """Adds two vectors together
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.add(point1,point2)
+        """
         a = self.ptCheck(a)
         b = self.ptCheck(b)
         

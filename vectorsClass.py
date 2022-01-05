@@ -43,7 +43,7 @@ class vec():
     addUnit     Adds two vectors together and change the scalar magnitude to 1
     subUnit     Subtracts two vectors and changes the scalar magnitude to 1
     crossUnit   Computes cross multiplication and scale to magnitude of 1
-    midPoint    Computes the mid point value of two points
+    midPt       Computes the mid point value of two points
     massVA      Computes the addition of all point and vector values of a (set)
     addMult     Adds the first vector to a scalar multiplication of another vector
     
@@ -178,7 +178,19 @@ class vec():
     
     
     def sub(self,a,b):
-        #subtract two vectors a --> b
+        """Subtracts two vectors a-->b
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.sub(point1,point2)
+        """
+        
         a = self.ptCheck(a)
         b = self.ptCheck(b)
         
@@ -186,13 +198,36 @@ class vec():
     
     
     def mult(self,a,b):
-        #multiply one vector by a constant value 'b'
+        """Multiplies a vector to scalar magnitude
+        Parameters:
+          point1: point 3d or referenced point
+          number: float value
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          value = 3
+          v.mult(point1,value)
+        """
+        
         a = self.ptCheck(a)
         
         return (a[0]*b,a[1]*b,a[2]*b)
     
     def cross(self,a,b):
-        #cross product of two variables
+        """Computes the cross product of two vectors
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.cross(point1,point2)
+        """
         a = self.ptCheck(a)
         b = self.ptCheck(b)
         
@@ -202,7 +237,16 @@ class vec():
     
     
     def vecUnit(self,a):
-        #unit vector of one variable
+        """Unitizes the vector
+        Parameters:
+          point1: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          v.vecUnit(point1)
+        """
         a = self.ptCheck(a)
         b = self.dist(a,(0,0,0))
         
@@ -215,13 +259,62 @@ class vec():
     
     
     def addUnit(self,a,b):
+        """Adds two vectors together and then unitize it
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.addUnit(point1,point2)
+        """
         return self.vecUnit(self.add(a,b))
     def subUnit(self,a,b):
+        """Subtracts two vectors a-->b and then unit vectorize
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.subUnit(point1,point2)
+        """
         return self.vecUnit(self.sub(a,b))
     def crossUnit(self,a,b):
+        """Computes the unit vector of a two vector cross product
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.crossUnit(point1,point2)
+        """
         return self.vecUnit(self.cross(a,b))
     
-    def midPoint(self,a,b):
+    def midPt(self,a,b):
+        """Computes the unit vector of a two vector cross product
+        Parameters:
+          point1: point 3d or referenced point
+          point2: point 3d or referenced point
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          v.midPt(point1,point2)
+        """
+        
         a = self.ptCheck(a)
         b = self.ptCheck(b)
         
@@ -229,9 +322,19 @@ class vec():
     
     
     def massVA(self,set):
-        #adds a multitude of point items together
+        """Adds all the point values together
+        Parameters:
+          point array: [point1, point2, ...]
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          point3 = (10,3,5)
+          v.massVA((point1,point2,point3))
+        """
         
-        #(pt1,pt2,...ptN)
         ptSet = (0,0,0)
         for i in range(len(set)):
             ptSet = self.add(ptSet,set[i])

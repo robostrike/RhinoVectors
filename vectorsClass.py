@@ -10,12 +10,6 @@ Vers. 1.2:
 Developed by Robostrike
 Started on March 1, 2021
 
-
-
-***
-Initiate with v = vec()
-***
-
 """
 
 
@@ -25,6 +19,29 @@ import math as ma
 
 class vec():
     
+    """
+    Initiate with v = vec()
+    
+    Command List:
+    
+    ptCheck     Checks for validity of point for usage
+    planeCheck  Checks for validity of plane for usage
+    
+    dot         Computes dot product of two vectors
+    dist        Computes the distance between two points
+    vecDist     Computes the scalar magnitude of the vector
+    add         Adds two vectors together
+    sub         Subtracts the first to the second vector 1-->2
+    mult        Multplies a vector to a scalar value
+    cross       Computes the cross product of two vectors
+    vecUnit     Reproduces the vector to scalar magnitude of 1
+    addUnit     Adds two vectors together and change the scalar magnitude to 1
+    subUnit     Subtracts two vectors and changes the scalar magnitude to 1
+    crossUnit   Computes cross multiplication and scale to magnitude of 1
+    midPoint    Computes the mid point value of two points
+    massVA      Computes the addition of all point and vector values of a (set)
+    addMult     adds the first vector to a scalar multiplication of another vector
+    """
     
     
     def ptCheck(self,a):
@@ -153,13 +170,21 @@ class vec():
     
     
     def massVA(self,set):
-        #adds a multitude of point items
+        #adds a multitude of point items together
         
         #(pt1,pt2,...ptN)
         ptSet = (0,0,0)
         for i in range(len(set)):
             ptSet = self.add(ptSet,set[i])
         return ptSet
+    
+    def addMult(self,a,b,c):
+        #a and b are vectors
+        #c is a scalar value multiplied to vector b
+        a = self.ptCheck(a)
+        b = self.ptCheck(b)
+        
+        return self.add(a,self.mult(b,c))
     
     
     def ptLine(self,pt, lnPt1,lnPt2):
@@ -206,6 +231,7 @@ class vec():
     
     def linDiv (self,eq, eq2, set):
         #linear equation division
+        
         value = eq[set]/eq2[set]
         return [eq[i] - eq2[i]*value for i in range(len(eq))]
     

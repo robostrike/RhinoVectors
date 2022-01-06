@@ -439,7 +439,7 @@ class vec():
           point = (-5,-3,5)
           v.ptPl(plane,pt)
         """
-        #point closest plane value
+        
         
         pt = self.ptCheck(pt)
         plane = self.planeCheck(plane)
@@ -523,10 +523,32 @@ class vec():
         return result
     
     def lnLn(self,ptA1,ptA2,ptB1,ptB2):
-        #returns the the type of connection, the point of each reference, and position
-        #from ptA1 and ptB1, and distance if possible between each other
-        #[type, intersection point A, val within A (0-1 is within), 
-        #       intersection point B, val within B (0-1 is within, distance if parallel]
+        """Computes a line to line closest or intersection operation
+        Parameters:
+          line1A: point 3d or referenced point of line 1
+          line1B: point 3d or referenced point of line 1
+          line2A: point 3d or referenced point of line 2
+          line2B: point 3d or referenced point of line 2
+        Returns:
+          number[0]: type of intersection value
+            1 - lie on same line
+            2 - parallel
+            3 - non parallel but do not intersect
+            4 - non parallel and intersect at one point
+          point[1]: point on line 1 closest to line 2
+          parameter[2]: parameter in vector of line1A to line1B to point[1]
+          point[3]: point on line 2 closest to line 1
+          parameter[4]: parameter in vector of line2A to line2B to point[3]
+          number[5]: distance between point[1] and point[3]
+        Example:
+          v = vec()
+          line1A = (-2,1,3)
+          line1B = (10,3,4)
+          line2A = (2,2,4)
+          line2B = (7,2,-1)
+          v.lnLn(line1A,line1B,line2A,line2B)
+        """
+        
         
         
         ptA1 = self.ptCheck(ptA1)
@@ -588,7 +610,7 @@ class vec():
             #system of equations to resolve for s and t values
             if (o1[0] == 0) & (o1[1] == 0):
                 #unsolveable equation
-                print "Cannot compute value due to cancelled terms"
+                print "Cannot compute line line intersection value due to indetermined condition"
                 exit()
             else:
                 #solve linear algebra and isolate for t
@@ -620,6 +642,27 @@ class vec():
     
     
     def lnPl (self,plane, ptA1, ptA2):
+        """Computes the line and plane intersection
+        Parameters:
+          plane: prescribed plane of origin, and xyz axis
+          line1A: point 3d or referenced point of line 1
+          line1B: point 3d or referenced point of another point in line 1
+        Returns:
+          number[0]: type condition of intersection type
+            1 - line is on plane and returns the designated line1A
+            2 - unique solution
+          point[1]: point 3d of intersection on plane
+          parameter[2]: vector along line1A to line1B to reach intersection point
+        Example:
+          import rhinoscriptsyntax as rs
+          v = vec()
+          plane = rs.PlaneFromPoints((0,0,0),(10,4,5),(-1,4,2))
+          line1A = (-5,-3,5)
+          line1B = (10,5,1)
+          v.lnPl(plane,line1A,line1B)
+        """
+        
+        
         #determines the intersection point, or identify its parallelism
         
         ptA1 = self.ptCheck(ptA1)
@@ -629,7 +672,7 @@ class vec():
         
         #vector geometry calculation
         if self.dist(ptA1,ptA2) < 0.001:
-            print ("Line distance too short")
+            print ("Cannot compute plane line intersection value due to indetermined condition")
             exit()
         
         vecA = self.sub(ptA2,ptA1)  #vectorA
@@ -638,7 +681,7 @@ class vec():
         
         if op.abs(den) < 0.001:
             print "No unique solution"
-            return (1, "No Unique Solution")
+            return (1, ptA1,0)
         
         crossU = self.cross(plane[2],self.mult(vecA,-1))
         crossV = self.cross(self.mult(vecA,-1),plane[1])
@@ -648,4 +691,4 @@ class vec():
         v = self.dot(crossV,pDist) / den
         
         pointF = self.add(ptA1,self.mult(vecA,-t))
-        return (0,t,pointF)
+        return (2,pointF,t)

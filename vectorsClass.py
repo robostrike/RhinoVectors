@@ -341,6 +341,20 @@ class vec():
         return ptSet
     
     def addMult(self,a,b,c):
+        """Adds one point / vector to another multiplied by a scalar value
+        Parameters:
+          point1: point 3d or referenced 3d point
+          point2: point 3d or referenced 3d point
+          number: a scalar value for point 2
+        Returns:
+          point: point 3d
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          point2 = (-2,1,3)
+          value = 3
+          v.addMult(point1,point2,value)
+        """
         #a and b are vectors
         #c is a scalar value multiplied to vector b
         a = self.ptCheck(a)
@@ -350,11 +364,21 @@ class vec():
     
     
     def ptLn(self,pt, lnPt1,lnPt2):
-        #point and domain value of closest point along straight line
-        
-        #pt references existing point reference
-        #lnPt1 denotes the starting point of the line
-        #lnPt2 denotes the ending point of the line
+        """Computes a point closest to a line
+        Parameters:
+          point1: evaluating point 3d or referenced point
+          point2: point 3d or referenced point of a line
+          point3: point 3d or referenced point of a line at another position
+        Returns:
+          point[0]: point 3d that will be on or closest to the line
+          value[1]: scalar magnitude distance from point2 along vector point2 --> point3
+        Example:
+          v = vec()
+          point1 = (1,2,3)
+          line1 = (-2,1,3)
+          line2 = (10,3,4)
+          v.ptLn(point1,line1,line2)
+        """
         
         pt = self.ptCheck(pt)
         lnPt1 = self.ptCheck(lnPt1)
@@ -402,6 +426,19 @@ class vec():
         return [eq[i] - eq2[i] for i in range(len(eq))]
     
     def ptPl(self,plane, pt):
+        """Computes a point closest to the plane (perpendicular)
+        Parameters:
+          plane: prescribed plane of origin, and xyz axis
+          point: point 3d or referenced point for evaluation
+        Returns:
+          point: point 3d that will be on or closest to the line
+        Example:
+          import rhinoscriptsyntax as rs
+          v = vec()
+          plane = rs.PlaneFromPoints((0,0,0),(10,4,5),(-1,4,2))
+          point = (-5,-3,5)
+          v.ptPl(plane,pt)
+        """
         #point closest plane value
         
         pt = self.ptCheck(pt)

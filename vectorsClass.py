@@ -677,7 +677,7 @@ class vec():
         
         vecA = self.sub(ptA2,ptA1)  #vectorA
         pDist = self.sub(ptA1,plane[0])  #distance between static point of plane and line
-        den = self.dot(mult(vecA,-1), plane[3])
+        den = self.dot(self.mult(vecA,-1), plane[3])
         
         if op.abs(den) < 0.001:
             print "No unique solution"
@@ -692,3 +692,76 @@ class vec():
         
         pointF = self.add(ptA1,self.mult(vecA,-t))
         return (2,pointF,t)
+    
+    
+    def plPl(self,plane1,plane2):
+        """Computes the plane and plane intersection
+        Parameters:
+          plane1: prescribed plane of origin, and xyz axis
+          plane2: prescribed plane of origin, and xyz axis
+        Returns:
+          number[0]: type condition of intersection type
+            1 - plane is parallel to one another
+            2 - plane is not parallel 
+          point[1]: point 3d of an intersection position between two planes
+          point[2]: point 3d of the vector of the line
+        Example:
+          import rhinoscriptsyntax as rs
+          v = vec()
+          plane1 = rs.PlaneFromPoints((0,0,0),(10,4,5),(-1,4,2))
+          plane2 = rs.PlaneFromPoints((1,4,9),(3,12,9),(1,-2,1))
+          v.plPl(plane1,plane2)
+        """
+        
+        plane1 = self.planeCheck(plane1)
+        plane2 = self.planeCheck(plane2)
+        
+        #determine if the two planes are parallel
+        
+        dotVal = self.dot(plane1[3],plane2[3])
+        if (dotVal > 0.999) | (dotVal < -0.999):
+            #parallel plane
+            return (1,plane1[0],None)
+        else:
+            #get vector of interest
+            vecOut = self.crossUnit(plane1[3],plane2[3])
+            vecPerp = self.crossUnit(vecOut, plane1[3])
+            point = v.lnPl(plane2,plane1[0],self.add(plane1[0],vecPerp))[1]
+            
+            return (2,point,vecOut)
+    
+    def pl3(self,plane1,plane2,plane3):
+        """Computes the plane plane plane intersection
+        Parameters:
+          plane1: prescribed plane of origin, and xyz axis
+          plane2: prescribed plane of origin, and xyz axis
+          plane3: prescribed plane of origin, and xyz axis
+        Returns:
+          number[0]: type condition of intersection type
+            1 - all 3 planes are parallel
+            2 - 2 planes are parallel and one intersects
+            3 - a unique solution of one point
+          point[1]: point 3d of intersection if present
+        Example:
+          import rhinoscriptsyntax as rs
+          v = vec()
+          plane1 = rs.PlaneFromPoints((0,0,0),(10,4,5),(-1,4,2))
+          plane2 = rs.PlaneFromPoints((1,4,9),(3,12,9),(1,-2,1))
+          plane3 = rs.PlaneFromPoints((10,4,5),(3,5,-1),(-1,-5,10))
+          v.pl3(plane1,plane2,plane3)
+        """
+        
+        plane1 = self.planeCheck(plane1)
+        plane2 = self.planeCheck(plane2)
+        plane3 = self.planeCheck(plane3)
+        
+        #check for plane parallelism
+        check1 = self.dot(plane1[3],plane2[3])
+        check2 = self.dot(plane1[3],plane3[3])
+        check3 = self.dot(plane2[3],plane3[3])
+        
+        
+        
+        
+        
+        

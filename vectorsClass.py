@@ -8,6 +8,7 @@ Vers. 1.2:
     cause bugs
 Vers. 1.3:
     Added a ton of comments to speed up function call designations and clean up code
+    Added plane plane plane intersection
 
 Developed by Robostrike
 Started on March 1, 2021
@@ -756,12 +757,26 @@ class vec():
         plane3 = self.planeCheck(plane3)
         
         #check for plane parallelism
-        check1 = self.dot(plane1[3],plane2[3])
-        check2 = self.dot(plane1[3],plane3[3])
-        check3 = self.dot(plane2[3],plane3[3])
+        check1 = op.abs(self.dot(plane1[3],plane2[3]))
+        check2 = op.abs(self.dot(plane1[3],plane3[3]))
+        check3 = op.abs(self.dot(plane2[3],plane3[3]))
         
+        total = 0
+        if check1 > 0.999:
+            total = total + 1
+        if check2 > 0.999:
+            total = total + 1
+        if check3 > 0.999:
+            total = total + 1
         
-        
-        
-        
+        #exporting parallel (no solutions)
+        if total == 3:
+            return (1,None)
+        elif total > 0:
+            return (2,None)
+        else:
+            plan = self.plPl(plane1,plane2)
+            seq = self.lnPl(plane3, plan[1],self.add(plan[1],plan[2]))
+            
+            return (3,seq[1])
         

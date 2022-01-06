@@ -54,7 +54,7 @@ class vec():
     lnLn        Computes the line closest to line intersection
     lnPl        Computes the line to a plane intersection
     plPl        Computes the plane to a plane vector intersection
-    
+    pl3         Computes the plane plane plane intersection
     """
     
     

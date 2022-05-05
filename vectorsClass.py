@@ -321,7 +321,20 @@ class vec():
         
         return ((a[0]+b[0])/2,(a[1]+b[1])/2,(a[2]+b[2])/2)
     
-    
+    def addMult(self,a,b,c):
+        """Adds one vector to a scalar multiple of another
+        Parameters:
+            point a: point 3d or referenced point
+            point b: point 3d or referenced point
+            number c: float value
+        Returns:
+            point: point 3d
+        
+        
+        """
+        
+        return self.add(a,self.mult(b,c))
+        
     def massVA(self,set):
         """Adds all the point values together
         Parameters:

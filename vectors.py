@@ -106,18 +106,19 @@ def planeCheck(a):
 
 
 def dot(a,b):
-    """Computes the dot product of two vectors
-        Parameters:
-          point1: point 3d or referenced point
-          point2: point 3d or referenced point
-        Returns:
-          number: overlap amount between first vector to second vector
-        Example:
-          import vectors as v
-          point1 = (1,2,3)
-          point2 = (-2,1,3)
-          v.dot(point1,point2)
-        """
+    """
+    Computes the dot product of two vectors
+    Parameters:
+      point1: point 3d or referenced point
+      point2: point 3d or referenced point
+    Returns:
+      number: overlap amount between first vector to second vector
+    Example:
+      import vectors as v
+      point1 = (1,2,3)
+      point2 = (-2,1,3)
+      v.dot(point1,point2)
+    """
     a = ptCheck(a)
     b = ptCheck(b)
     
@@ -125,18 +126,19 @@ def dot(a,b):
 
 
 def dist(a,b):
-    """Computes the distance between points
-        Parameters:
-          point1: point 3d or referenced point
-          point2: point 3d or referenced point
-        Returns:
-          number: scalar magnitude between two points
-        Example:
-          import vectors as v
-          point1 = (1,2,3)
-          point2 = (-2,1,3)
-          v.dist(point1,point2)
-        """
+    """
+    Computes the distance between points
+    Parameters:
+      point1: point 3d or referenced point
+      point2: point 3d or referenced point
+    Returns:
+      number: scalar magnitude between two points
+    Example:
+      import vectors as v
+      point1 = (1,2,3)
+      point2 = (-2,1,3)
+      v.dist(point1,point2)
+    """
     a = ptCheck(a)
     b = ptCheck(b)
     
@@ -144,35 +146,37 @@ def dist(a,b):
 
 
 def vecDist(a):
-    """Computes the scalar magnitude of the intended vector
-        Parameters:
-          point1: point 3d or referenced point
-        Returns:
-          number: scalar magnitude of the vector
-        Example:
-          import vectors as v
-          point1 = (1,2,3)
-          point2 = (-2,1,3)
-          v.vecDist(point1)
-        """
+    """
+    Computes the scalar magnitude of the intended vector
+    Parameters:
+      point1: point 3d or referenced point
+    Returns:
+      number: scalar magnitude of the vector
+    Example:
+      import vectors as v
+      point1 = (1,2,3)
+      point2 = (-2,1,3)
+      v.vecDist(point1)
+    """
     a = ptCheck(a)
     
     return ma.sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2])
 
 
 def add(a,b):
-    """Adds two vectors together
-        Parameters:
-          point1: point 3d or referenced point
-          point2: point 3d or referenced point
-        Returns:
-          point: point 3d
-        Example:
-          import vectors as v
-          point1 = (1,2,3)
-          point2 = (-2,1,3)
-          v.add(point1,point2)
-        """
+    """
+    Adds two vectors together
+    Parameters:
+      point1: point 3d or referenced point
+      point2: point 3d or referenced point
+    Returns:
+      point: point 3d
+    Example:
+      import vectors as v
+      point1 = (1,2,3)
+      point2 = (-2,1,3)
+      v.add(point1,point2)
+    """
     a = ptCheck(a)
     b = ptCheck(b)
     
@@ -180,7 +184,8 @@ def add(a,b):
 
 
 def sub(a,b):
-    """Subtracts two vectors a-->b
+    """
+    Subtracts two vectors a-->b
     Parameters:
       point1: point 3d or referenced point
       point2: point 3d or referenced point
@@ -199,7 +204,8 @@ def sub(a,b):
 
 
 def mult(a,b):
-    """Multiplies a vector to scalar magnitude
+    """
+    Multiplies a vector to scalar magnitude
     Parameters:
       point1: point 3d or referenced point
       number: float value
@@ -216,7 +222,8 @@ def mult(a,b):
     return (a[0]*b,a[1]*b,a[2]*b)
 
 def cross(a,b):
-    """Computes the cross product of two vectors
+    """
+    Computes the cross product of two vectors
     Parameters:
       point1: point 3d or referenced point
       point2: point 3d or referenced point
@@ -237,7 +244,8 @@ def cross(a,b):
 
 
 def vecUnit(a):
-    """Unitizes the vector
+    """
+    Unitizes the vector
     Parameters:
       point1: point 3d or referenced point
     Returns:
@@ -259,7 +267,8 @@ def vecUnit(a):
 
 
 def addUnit(a,b):
-    """Adds two vectors together and then unitize it
+    """
+    Adds two vectors together and then unitize it
     Parameters:
       point1: point 3d or referenced point
       point2: point 3d or referenced point

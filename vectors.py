@@ -280,7 +280,7 @@ def addUnit(a,b):
       point2 = (-2,1,3)
       v.addUnit(point1,point2)
     """
-    return vecUnit(vecAdd(a,b))
+    return vecUnit(add(a,b))
 def subUnit(a,b):
     """
     Subtracts two vectors a-->b and then unit vectorize
@@ -295,7 +295,8 @@ def subUnit(a,b):
       point2 = (-2,1,3)
       v.subUnit(point1,point2)
     """
-    return vecUnit(vecSub(a,b))
+    return vecUnit(sub(a,b))
+
 def crossUnit(a,b):
     """
     Computes the unit vector of a two vector cross product
@@ -349,7 +350,7 @@ def massVA(set):
         ptSet = self.add(ptSet,set[i])
     return ptSet
 
-def addMult(self,a,b,c):
+def addMult(a,b,c):
     """Adds one point / vector to another multiplied by a scalar value
     Parameters:
       point1: point 3d or referenced 3d point
